@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <title>Registro</title>
+</head>
+<body>
+<div class="h-screen bg-white flex flex-col space-y-10 justify-center items-center">
+    <div class="bg-white md:shadow-lg shadow-lg rounded p-6 w-96">
+        <h1 class="text-3xl font-bold leading-normal text-blue-900 text-center">Registro</h1>
+        <p class="text-sm leading-normal text-blue-900 text-center">Crea tu cuenta para acceder a VIDeApp</p>
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <p class="text-red-500 text-sm">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="POST" class="space-y-5 mt-5">
+            {% csrf_token %}
+            <div>
+                <label for="id_username" class="block text-sm font-medium text-gray-700">Usuario</label>
+                <input type="text" name="username" id="id_username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                {{ form.username.errors }}
+            </div>
+        
+            <div>
+                <label for="id_email" class="block text-sm font-medium text-gray-700">Correo electrónico</label>
+                <input type="email" name="email" id="id_email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                {{ form.email.errors }}
+            </div>
+            <div>
+                <label for="id_ci" class="block text-sm font-medium text-gray-700">Carnet de Identidad (CI)</label>
+                {{ form.ci }}
+                {{ form.ci.errors }}
+            </div>
+            <div>
+                <label for="id_first_name" class="block text-sm font-medium text-gray-700">Nombre</label>
+                <input type="text" name="first_name" id="id_first_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                {{ form.first_name.errors }}
+            </div>
+        
+            <div>
+                <label for="id_last_name" class="block text-sm font-medium text-gray-700">Apellido</label>
+                <input type="text" name="last_name" id="id_last_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                {{ form.last_name.errors }}
+            </div>
+        
+            <div>
+                <label for="id_password1" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                <input type="password" name="password1" id="id_password1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                {{ form.password1.errors }}
+            </div>
+        
+            <div>
+                <label for="id_password2" class="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
+                <input type="password" name="password2" id="id_password2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                {{ form.password2.errors }}
+            </div>
+        
+            <button type="submit" 
+                    class="w-full text-center bg-blue-900 hover:bg-blue-300 rounded-full text-white py-3 font-medium">
+                Registrarse
+            </button>
+        </form>
+        
+    </div>
+    <p>¿Ya tienes una cuenta?
+        <a class="text-blue-900 font-bold hover:bg-blue-300 hover:underline hover:p-5 p-2 rounded-full" href="{% url 'login' %}">
+            Inicia sesión
+        </a>
+    </p>
+</div>
+</body>
+</html>

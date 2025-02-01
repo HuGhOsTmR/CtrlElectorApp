@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="border-l">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .input {
+            transition: border 0.2s ease-in-out;
+            min-width: 280px;
+        }
+        .input:focus + .label,
+        .input:active + .label,
+        .input.filled + .label {
+            font-size: .75rem;
+            transition: all 0.2s ease-out;
+            top: -0.3rem;
+            color: #6b7280;
+        }
+        .label {
+            transition: all 0.2s ease-out;
+            top: 0.4rem;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div style="position: relative;">
+        <img src="{% static 'images/teamTuto.png' %}" alt="Team Tutorial" class="responsive-img center-img">
+        
+    </div>
+</header>
+<div class="h-screen bg-white relative flex flex-col space-y-10 justify-center items-center">
+    <div class="bg-white md:shadow-lg shadow-lg rounded p-6 w-96">
+        <h1 class="text-3xl font-bold leading-normal text-blue-900 text-center">VIDeApp</h1>
+        <p class="text-sm leading-normal text-blue-900 text-center">Aplicación para Identificación Virtual</p>
+        <form class="space-y-5 mt-5" method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="mb-4 relative">
+                <input id="username" name="username" 
+                       class="w-full rounded px-3 border border-gray-500 pt-5 pb-2 focus:outline-none input active:outline-none" 
+                       type="text" autofocus required>
+                <label for="username" 
+                       class="label absolute mb-0 -mt-2 pt-4 pl-3 leading-tighter text-gray-500 text-base mt-2 cursor-text">
+                    Email o Usuario
+                </label>                
+            </div>
+            <div class="relative flex items-center border border-gray-500 focus:ring focus:border-blue-500 rounded">
+                <input id="password" 
+                       class="w-full rounded px-3 pt-5 outline-none pb-2 focus:outline-none active:outline-none input active:border-blue-500" 
+                       type="password" name="password" required>
+                <label for="password" 
+                       class="label absolute mb-0 -mt-2 pt-4 pl-3 leading-tighter text-gray-500 text-base mt-2 cursor-text">
+                    Contraseña:
+                </label>
+                <a id="togglePassword" 
+                   class="text-sm font-bold text-blue-900 hover:bg-blue-300 rounded-full px-2 py-1 mr-1 leading-normal cursor-pointer">
+                   ver
+                </a>
+            </div>
+            <button class="w-full text-center bg-blue-900 hover:bg-blue-300 rounded-full text-white py-3 font-medium" type="submit">
+                Ingresar
+            </button>
+            {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                        <p class="text-red-500 text-sm">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </form>
+        
+    </div>
+    <p>¿Eres nuevo?
+        <a class="text-blue-900 font-bold hover:bg-blue-300 hover:underline hover:p-5 p-2 rounded-full" href="{% url 'register' %}">
+            Registrate ahora
+        </a>
+    </p>
+</div>
+</body>
+<footer>
+    <div style="position: relative;">
+        <a href="https://www.facebook.com/profile.php?id=100080670950922" target="_blank">
+        <img src="{% static 'images/GhostLogo.png' %}" alt="Ghost Logo" class="responsive-img bottom-right-img w-16">
+    </a>
+    </div>
+    
+    
+</footer>
+
+<script>
+    // Función para verificar si un input tiene texto
+    function handleInputFilled() {
+        const inputs = document.querySelectorAll('.input');
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                if (input.value.trim() !== '') {
+                    input.classList.add('filled');
+                } else {
+                    input.classList.remove('filled');
+                }
+            });
+        });
+    }
+
+    // Función para alternar la visibilidad del password
+    function handleTogglePassword() {
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+
+        togglePassword.addEventListener('click', () => {
+            // Alternar entre password y text
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                togglePassword.textContent = 'ocultar'; // Cambiar el texto del botón
+            } else {
+                passwordInput.type = 'password';
+                togglePassword.textContent = 'ver';
+            }
+        });
+    }
+
+    // Ejecutar funciones cuando la página cargue
+    document.addEventListener('DOMContentLoaded', () => {
+        handleInputFilled();
+        handleTogglePassword();
+    });
+</script>
+</html>
